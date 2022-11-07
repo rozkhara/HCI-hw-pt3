@@ -1,6 +1,45 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+    <title>Hall of Shame</title>
+    <style>
+        .button {
+            border: 3px solid #8eaac3;
+            color: #ffffff;
+            padding: 10px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 4px 2px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+
+        .button_ {
+            background-color: #5b9bd5;
+        }
+    </style>
+</head>
+
 <body>
-    HoS
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <canvas id="myCanvas" width="200" height="50" style="border:3px solid #8eaac3;"></canvas>
+    <script>
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.font = "30px Arial";
+        ctx.textBaseline = "middle"
+        ctx.textAlign = "center"
+        ctx.fillStyle = "#ff0000"
+        ctx.fillRect(0, 0, 200, 50);
+        ctx.fillStyle = "#ffffff"
+        ctx.fillText("Hall of Shame", 100, 25);
+    </script>
+    <br />
+    <button class="button button_" onclick="window.location.href = './Add.html'">Add</button>
+    <button class="button button_" onclick="window.location.href = './index.html'">Home</button>
 </body>
+
 </html>

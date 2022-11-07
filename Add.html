@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add</title>
+    <style>
+        .button {
+            border: 3px solid #8eaac3;
+            color: #ffffff;
+            padding: 10px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 4px 2px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+
+        .button_ {
+            background-color: #5b9bd5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form onsubmit="return false;">
+        <input type="text" placeholder="Enter name for a new use case" size="30" id="textLoader" name="textLoader">
+    </form>
+    <button class="button button_" id="imageButton">Upload image</button>
+    <input type="file" id="imageLoader" name="imageLoader" style="display: none;" />
+    <button class="button button_" onclick="UpdateInfo();">Save</button>
+    <br />
+    <canvas id="imageCanvas"></canvas>
+
+    <script>
+        var textInput = "default";
+        var imgFile = "defaultFile"
+        var info = [];
+
+        function handleImage(e) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var img = new Image();
+                img.onload = function () {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                }
+                img.src = event.target.result;
+                imgFile = img.src;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
+        function handleText(e) {
+            textInput = document.getElementById('textLoader').value;
+        }
+
+        function UpdateInfo() {
+            _info = { uCName: textInput, imgFile: imgFile };
+            info.push(_info);
+            location.href = './index.html';
+        }
+
+        var imageLoader = document.getElementById('imageLoader');
+        imageLoader.addEventListener('change', handleImage, false);
+        var canvas = document.getElementById('imageCanvas');
+        var ctx = canvas.getContext('2d');
+
+        var imButton = document.getElementById("imageButton");
+        imButton.addEventListener('click', function () { imageLoader.click(); }, false);
+
+        var textLoader = document.getElementById('textLoader');
+        textLoader.addEventListener('change', handleText, false);
+    </script>
+</body>
+
+</html>
