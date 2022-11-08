@@ -31,7 +31,7 @@
 </head>
 
 <body>
-    <canvas id="myCanvas" width="180" height="50" style="border:3px solid #4d7aa2;"
+    <canvas id="myCanvas" width="200" height="50" style="border:3px solid #4d7aa2;"
         style="vertical-align: middle;"></canvas>
     <script>
         var c = document.getElementById("myCanvas");
@@ -40,16 +40,14 @@
         ctx.textBaseline = "middle"
         ctx.textAlign = "center"
         ctx.fillStyle = "#f4b183"
-        ctx.fillRect(0, 0, 180, 50);
+        ctx.fillRect(0, 0, 200, 50);
         ctx.fillStyle = "#ffffff"
-        ctx.fillText("UI Museum", 90, 25);
+        ctx.fillText("UI Museum", 100, 25);
         if (localStorage.infoArr_F) {
             var info_F = JSON.parse(localStorage.infoArr_F);
-            console.log(info_F);
         }
         if (localStorage.infoArr_S) {
             var info_S = JSON.parse(localStorage.infoArr_S);
-            console.log(info_S);
         }
     </script>
     <br />

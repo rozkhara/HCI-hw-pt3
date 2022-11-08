@@ -38,8 +38,28 @@
         ctx.fillText("Hall of Shame", 100, 25);
     </script>
     <br />
-    <button class="button button_" onclick="window.location.href = './Add.html'">Add</button>
+    <button class="button button_" onclick="window.location.href = './Add_alt.html'">Add</button>
     <button class="button button_" onclick="window.location.href = './index.html'">Home</button>
+    <script>
+        if (localStorage.infoArr_S) {
+            var temp = JSON.parse(localStorage.infoArr_S);
+            var myArray = temp.map(function (value, index) { return value[0]; });
+        }
+        else {
+            var myArray = [];
+        }
+        var myList = document.createElement('ol');
+        $("body").append(myList)
+        $('ol').attr("id", "ticketList");
+        $.each(myArray, function (i, myArray) {
+            $("#ticketList").append("<li><a onclick='listOnClick(" + i + ", myArray);' href='./UCdetail.html'  id=" + myArray + "_link>" + myArray + "</a></li>");
+        })
+
+        function listOnClick(i, myArray) {
+            localStorage.curMode = "Shame";
+            localStorage.curIndex = i;
+        }
+    </script>
 </body>
 
 </html>

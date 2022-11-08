@@ -68,10 +68,10 @@
                 return false;
             }
             else {
-                _info = { uCName: textInput, imgFile: imgFile };
+                var _info = [textInput, imgFile];
                 info.push(_info);
                 localStorage.infoArr_S = JSON.stringify(info);
-                location.href = './index.html';
+                location.href = './HoS.html';
             }
         }
 

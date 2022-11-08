@@ -34,8 +34,8 @@
     <canvas id="imageCanvas"></canvas>
 
     <script>
-        var textInput = "default";
-        var imgFile = "defaultFile"
+        var textInput = new String();
+        var imgFile = new String();
         if (localStorage.infoArr_F) {
             var info = JSON.parse(localStorage.infoArr_F);
         }
@@ -68,10 +68,10 @@
                 return false;
             }
             else {
-                _info = { uCName: textInput, imgFile: imgFile };
+                var _info = [textInput, imgFile];
                 info.push(_info);
                 localStorage.infoArr_F = JSON.stringify(info);
-                location.href = './index.html';
+                location.href = './HoF.html';
             }
         }
 

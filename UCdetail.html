@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Use Case Detail</title>
+    <style>
+        .button {
+            border: 3px solid #8eaac3;
+            color: #ffffff;
+            padding: 10px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 4px 2px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+
+        .button_ {
+            background-color: #5b9bd5;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="200" height="50" style="border:3px solid #8eaac3;"></canvas>
+    <script>
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.font = "30px Arial";
+        ctx.textBaseline = "middle"
+        ctx.textAlign = "center"
+        if (localStorage.curMode == "Fame") {
+            ctx.fillStyle = "#5b9bd5"
+        }
+        else {
+            ctx.fillStyle = "#ff0000"
+        }
+        ctx.fillRect(0, 0, 200, 50);
+        ctx.fillStyle = "#ffffff"
+        if (localStorage.curMode == "Fame") {
+            ctx.fillText("Hall of Fame", 100, 25);
+        }
+        else {
+            ctx.fillText("Hall of Shame", 100, 25);
+        }
+    </script>
+    <br />
+    <button class="button button_" onclick="deleteOnClick();">Delete</button>
+    <button class="button button_" onclick="window.location.href = './index.html'">Home</button>
+    <button class="button button_" onclick="returnToList();">Return to List</button>
+    <br />
+    <canvas id="imageCanvas"></canvas>
+    <script>
+        function deleteOnClick() {
+            if (localStorage.curMode == "Fame") {
+                var myArray = JSON.parse(localStorage.infoArr_F);
+                myArray.splice(localStorage.curIndex, 1);
+                localStorage.infoArr_F = JSON.stringify(myArray);
+                location.href = './HoF.html';
+            }
+            else {
+                var myArray = JSON.parse(localStorage.infoArr_S);
+                myArray.splice(localStorage.curIndex, 1);
+                localStorage.infoArr_S = JSON.stringify(myArray);
+                location.href = './HoS.html';
+            }
+        }
+
+        function returnToList() {
+            if (localStorage.curMode == "Fame") {
+                location.href = './HoF.html';
+            }
+            else {
+                location.href = './HoS.html';
+            }
+        }
+
+        var canvas = document.getElementById('imageCanvas');
+        var ctx = canvas.getContext('2d');
+
+        var img = new Image();
+        img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+        }
+        if (localStorage.curMode == "Fame") {
+            img.src = JSON.parse(localStorage.infoArr_F)[localStorage.curIndex][1];
+        }
+        else {
+            img.src = JSON.parse(localStorage.infoArr_S)[localStorage.curIndex][1];
+        }
+
+    </script>
+</body>

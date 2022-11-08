@@ -25,7 +25,7 @@
 
 <body>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <canvas id="myCanvas" width="180" height="50" style="border:3px solid #8eaac3;"></canvas>
+    <canvas id="myCanvas" width="200" height="50" style="border:3px solid #8eaac3;"></canvas>
     <script>
         var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
@@ -33,27 +33,32 @@
         ctx.textBaseline = "middle"
         ctx.textAlign = "center"
         ctx.fillStyle = "#5b9bd5"
-        ctx.fillRect(0, 0, 180, 50);
+        ctx.fillRect(0, 0, 200, 50);
         ctx.fillStyle = "#ffffff"
-        ctx.fillText("Hall of Fame", 90, 25);
+        ctx.fillText("Hall of Fame", 100, 25);
     </script>
     <br />
     <button class="button button_" onclick="window.location.href = './Add.html'">Add</button>
     <button class="button button_" onclick="window.location.href = './index.html'">Home</button>
     <script>
         if (localStorage.infoArr_F) {
-            var myArray = JSON.parse(localStorage.infoArr_F);
+            var temp = JSON.parse(localStorage.infoArr_F);
+            var myArray = temp.map(function (value, index) { return value[0]; });
         }
         else {
             var myArray = [];
         }
-        var eArray = myArray.uCName;
-        var myList = document.createElement('ol'); // Create the list element
+        var myList = document.createElement('ol');
         $("body").append(myList)
         $('ol').attr("id", "ticketList");
-        $.each(eArray, function (i, eArray) {
-            $("#ticketList").append("<li><a href='./" + eArray + "'  id=" + eArray + "_link>" + eArray + "</a></li>");
+        $.each(myArray, function (i, myArray) {
+            $("#ticketList").append("<li><a onclick='listOnClick(" + i + ", myArray);' href='./UCdetail.html'  id=" + myArray + "_link>" + myArray + "</a></li>");
         })
+
+        function listOnClick(i, myArray) {
+            localStorage.curMode = "Fame";
+            localStorage.curIndex = i;
+        }
     </script>
 </body>
 
