@@ -41,12 +41,18 @@
     <button class="button button_" onclick="window.location.href = './Add.html'">Add</button>
     <button class="button button_" onclick="window.location.href = './index.html'">Home</button>
     <script>
-        var myArray = ["Test1", "Test2"]
+        if (localStorage.infoArr_F) {
+            var myArray = JSON.parse(localStorage.infoArr_F);
+        }
+        else {
+            var myArray = [];
+        }
+        var eArray = myArray.uCName;
         var myList = document.createElement('ol'); // Create the list element
         $("body").append(myList)
         $('ol').attr("id", "ticketList");
-        $.each(myArray, function (i, myArray) {
-            $("#ticketList").append("<li><a href='./" + myArray + "'  id=" + myArray + "_link>" + myArray + "</a></li>");
+        $.each(eArray, function (i, eArray) {
+            $("#ticketList").append("<li><a href='./" + eArray + "'  id=" + eArray + "_link>" + eArray + "</a></li>");
         })
     </script>
 </body>

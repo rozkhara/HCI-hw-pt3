@@ -24,7 +24,6 @@
 </head>
 
 <body>
-
     <form onsubmit="return false;">
         <input type="text" placeholder="Enter name for a new use case" size="30" id="textLoader" name="textLoader">
     </form>
@@ -37,7 +36,12 @@
     <script>
         var textInput = "default";
         var imgFile = "defaultFile"
-        var info = [];
+        if (localStorage.infoArr_F) {
+            var info = JSON.parse(localStorage.infoArr_F);
+        }
+        else {
+            var info = [];
+        }
 
         function handleImage(e) {
             var reader = new FileReader();
@@ -59,9 +63,16 @@
         }
 
         function UpdateInfo() {
-            _info = { uCName: textInput, imgFile: imgFile };
-            info.push(_info);
-            location.href = './index.html';
+            if (textInput == "" || imgFile == "") {
+                console.log("Either textInput or imgFile is empty");
+                return false;
+            }
+            else {
+                _info = { uCName: textInput, imgFile: imgFile };
+                info.push(_info);
+                localStorage.infoArr_F = JSON.stringify(info);
+                location.href = './index.html';
+            }
         }
 
         var imageLoader = document.getElementById('imageLoader');

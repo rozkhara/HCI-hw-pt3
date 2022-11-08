@@ -24,20 +24,25 @@
 </head>
 
 <body>
-
     <form onsubmit="return false;">
         <input type="text" placeholder="Enter name for a new use case" size="30" id="textLoader" name="textLoader">
     </form>
     <button class="button button_" id="imageButton">Upload image</button>
     <input type="file" id="imageLoader" name="imageLoader" style="display: none;" />
-    <button class="button button_" onclick="window.location.href = './index.html'">Save</button>
-
+    <button class="button button_" onclick="UpdateInfo();">Save</button>
     <br />
     <canvas id="imageCanvas"></canvas>
 
     <script>
         var textInput = new String();
-        
+        var imgFile = new String();
+        if (localStorage.infoArr_S) {
+            var info = JSON.parse(localStorage.infoArr_S);
+        }
+        else {
+            var info = [];
+        }
+
         function handleImage(e) {
             var reader = new FileReader();
             reader.onload = function (event) {
@@ -48,12 +53,26 @@
                     ctx.drawImage(img, 0, 0);
                 }
                 img.src = event.target.result;
+                imgFile = img.src;
             }
             reader.readAsDataURL(e.target.files[0]);
         }
 
         function handleText(e) {
             textInput = document.getElementById('textLoader').value;
+        }
+
+        function UpdateInfo() {
+            if (textInput == "" || imgFile == "") {
+                console.log("Either textInput or imgFile is empty");
+                return false;
+            }
+            else {
+                _info = { uCName: textInput, imgFile: imgFile };
+                info.push(_info);
+                localStorage.infoArr_S = JSON.stringify(info);
+                location.href = './index.html';
+            }
         }
 
         var imageLoader = document.getElementById('imageLoader');

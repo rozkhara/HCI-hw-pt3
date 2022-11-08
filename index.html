@@ -31,8 +31,8 @@
 </head>
 
 <body>
-    <canvas id="myCanvas" width="180" height="50"
-        style="border:3px solid #4d7aa2;" style="vertical-align: middle;"></canvas>
+    <canvas id="myCanvas" width="180" height="50" style="border:3px solid #4d7aa2;"
+        style="vertical-align: middle;"></canvas>
     <script>
         var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
@@ -43,6 +43,14 @@
         ctx.fillRect(0, 0, 180, 50);
         ctx.fillStyle = "#ffffff"
         ctx.fillText("UI Museum", 90, 25);
+        if (localStorage.infoArr_F) {
+            var info_F = JSON.parse(localStorage.infoArr_F);
+            console.log(info_F);
+        }
+        if (localStorage.infoArr_S) {
+            var info_S = JSON.parse(localStorage.infoArr_S);
+            console.log(info_S);
+        }
     </script>
     <br />
     <br />
@@ -52,7 +60,7 @@
     <button class="button button1" onclick="window.location.href = './HoF.html'">Hall of Fame</button>
     <br>
     <button class="button button2" onclick="window.location.href = './HoS.html'">Hall of Shame</button>
-    
+
 </body>
 
 </html>
