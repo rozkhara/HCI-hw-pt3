@@ -30,8 +30,10 @@
     <button class="button button_" id="imageButton">Upload image</button>
     <input type="file" id="imageLoader" name="imageLoader" style="display: none;" />
     <button class="button button_" onclick="UpdateInfo();">Save</button>
+    <button class="button button_" onclick="window.location.href = './HoF.html'">Return to list</button>
     <br />
     <canvas id="imageCanvas"></canvas>
+    <img src="./Star.png" style="z-index: 1000;" width="40" height="40" id="marker">
 
     <script>
         var textInput = new String();
@@ -75,10 +77,45 @@
             }
         }
 
+        marker.onmousedown = function (event) {
+            let shiftX = event.clientX - marker.getBoundingClientRect().left;
+            let shiftY = event.clientY - marker.getBoundingClientRect().top;
+            marker.style.position = 'absolute';
+            marker.style.zIndex = 1000;
+            document.body.append(marker);
+            moveAt(event.pageX, event.pageY);
+            function moveAt(pageX, pageY) {
+                marker.style.left = pageX - shiftX + 'px';
+                marker.style.top = pageY - shiftY + 'px';
+            }
+            function onMouseMove(event) {
+                moveAt(event.pageX, event.pageY);
+            }
+            document.addEventListener('mousemove', onMouseMove);
+            marker.onmouseup = function () {
+                document.removeEventListener('mousemove', onMouseMove);
+                marker.onmouseup = null;
+            };
+        };
+
+        marker.ondragstart = function () {
+            return false;
+        };
+
         var imageLoader = document.getElementById('imageLoader');
         imageLoader.addEventListener('change', handleImage, false);
         var canvas = document.getElementById('imageCanvas');
         var ctx = canvas.getContext('2d');
+        var hovering
+        canvas.addEventListener("mousemove", function (e) {
+            if ((e.clientX >= myRect.x) & (e.clientX <= myRect.x + myRect.w) & (e.clientY >= myRect.y) & (e.clientY <= myRect.y + myRect.h)) {
+                hovering = false;
+            }
+            else {
+                hovering = true;
+            }
+            //https://stackoverflow.com/questions/29300280/update-html5-canvas-rectangle-on-hover
+        }, false)
 
         var imButton = document.getElementById("imageButton");
         imButton.addEventListener('click', function () { imageLoader.click(); }, false);
