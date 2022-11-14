@@ -32,7 +32,8 @@
     <button class="button button_" onclick="UpdateInfo();">Save</button>
     <button class="button button_" onclick="window.location.href = './HoF.html'">Return to list</button>
     <br />
-    <canvas id="imageCanvas"></canvas>
+    <canvas id="imageCanvas" style="border:1px solid #000000;"></canvas>
+    <br />
     <img src="./Star.png" style="z-index: 1000;" width="40" height="40" id="marker">
 
     <script>
@@ -80,6 +81,7 @@
         marker.onmousedown = function (event) {
             let shiftX = event.clientX - marker.getBoundingClientRect().left;
             let shiftY = event.clientY - marker.getBoundingClientRect().top;
+            var firstPos = { x: event.clientX - marker.getBoundingClientRect().left, y: event.clientY - marker.getBoundingClientRect().top };
             marker.style.position = 'absolute';
             marker.style.zIndex = 1000;
             document.body.append(marker);
@@ -92,7 +94,16 @@
                 moveAt(event.pageX, event.pageY);
             }
             document.addEventListener('mousemove', onMouseMove);
-            marker.onmouseup = function () {
+            marker.onmouseup = function (e) {
+                var rect = { X: canvas.getBoundingClientRect().left, Y: canvas.getBoundingClientRect().top, W: canvas.width, H: canvas.height }
+                if ((e.clientX >= rect.X) & (e.clientX <= rect.X + rect.W) & (e.clientY >= rect.Y) & (e.clientY <= rect.Y + rect.H)) {
+                    console.log(true);
+                }
+                else {
+                    marker.style.left = event.pageX - firstPos.x + 'px';
+                    marker.style.top = event.pageY - firstPos.y + 'px';
+                    console.log(false);
+                }
                 document.removeEventListener('mousemove', onMouseMove);
                 marker.onmouseup = null;
             };
@@ -104,18 +115,9 @@
 
         var imageLoader = document.getElementById('imageLoader');
         imageLoader.addEventListener('change', handleImage, false);
+
         var canvas = document.getElementById('imageCanvas');
         var ctx = canvas.getContext('2d');
-        var hovering
-        canvas.addEventListener("mousemove", function (e) {
-            if ((e.clientX >= myRect.x) & (e.clientX <= myRect.x + myRect.w) & (e.clientY >= myRect.y) & (e.clientY <= myRect.y + myRect.h)) {
-                hovering = false;
-            }
-            else {
-                hovering = true;
-            }
-            //https://stackoverflow.com/questions/29300280/update-html5-canvas-rectangle-on-hover
-        }, false)
 
         var imButton = document.getElementById("imageButton");
         imButton.addEventListener('click', function () { imageLoader.click(); }, false);
