@@ -51,7 +51,7 @@
     <button class="button button_" onclick="window.location.href = './index.html'">Home</button>
     <button class="button button_" onclick="returnToList();">Return to List</button>
     <br />
-    <canvas id="imageCanvas"></canvas>
+    <canvas id="imageCanvas" style="border:1px solid #000000;"></canvas>
     <script>
         function deleteOnClick() {
             if (localStorage.curMode == "Fame") {
@@ -86,12 +86,33 @@
             canvas.height = img.height;
             ctx.drawImage(img, 0, 0);
         }
+
+        var markerArray = new Array();
         if (localStorage.curMode == "Fame") {
             img.src = JSON.parse(localStorage.infoArr_F)[localStorage.curIndex][1];
+            markerArray = JSON.parse(localStorage.infoArr_F)[localStorage.curIndex][2];
         }
         else {
             img.src = JSON.parse(localStorage.infoArr_S)[localStorage.curIndex][1];
+            markerArray = JSON.parse(localStorage.infoArr_S)[localStorage.curIndex][2];
         }
+
+        markerArray.forEach((element) => {
+            const newImg = document.createElement("img");
+            newImg.setAttribute("src", "./Star.png");
+            newImg.setAttribute("style", "z-index: 1000;");
+            newImg.setAttribute("width", "40");
+            newImg.setAttribute("height", "40");
+            newImg.setAttribute("id", "marker_placed");
+            var tempX = element[0];
+            var tempY = element[1];
+            newImg.style.left = tempX + canvas.offsetLeft + 'px';
+            newImg.style.top = tempY + canvas.offsetTop + 'px';
+            newImg.style.position = 'absolute';
+            console.log(tempX, tempY);
+            document.body.appendChild(newImg);
+        });
+
 
     </script>
 </body>
