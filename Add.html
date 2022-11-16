@@ -53,6 +53,7 @@
     <button class="button button_" id="imageButton">Upload image</button>
     <input type="file" id="imageLoader" name="imageLoader" style="display: none;" />
     <button class="button button_" onclick="UpdateInfo();">Save</button>
+    <button class="button button_" onclick="ClearMarkers();">Clear markers</button>
     <button class="button button_" onclick="window.location.href = './HoF.html'">Return to list</button>
     <br />
     <canvas id="imageCanvas" style="border:1px solid #000000;"></canvas>
@@ -107,6 +108,14 @@
                 localStorage.infoArr_F = JSON.stringify(info);
                 location.href = './HoF.html';
             }
+        }
+
+        function ClearMarkers() {
+            var elements = document.querySelectorAll("[id='marker_placed']");
+            elements.forEach(element => {
+                element.style.display = 'none';
+            });
+            markerInfo.splice(0, markerInfo.length);
         }
 
         function markerBehavior(event, marker) {
