@@ -23,7 +23,6 @@
 
         .tooltip {
             display: inline-block;
-            color: deeppink;
             font-weight: bold;
         }
 
@@ -31,12 +30,11 @@
             display: none;
             position: absolute;
             max-width: 200px;
-            border: 1px solid;
-            border-radius: 5px;
+            border: 1px solid #8eaac3;
             padding: 5px;
             font-size: 0.8em;
-            color: white;
-            background: deeppink;
+            color: #000000;
+            background: #ffffff;
             bottom: 110%;
             word-break: keep-all;
         }
@@ -65,8 +63,6 @@
     </form>
     <img src="./Star.png" onmousedown='markerBehavior(event, this);' ondragstart='return false;' style="z-index: 1000;"
         width="40" height="40" id="marker">
-
-
 
     <script>
         var textInput = new String();
@@ -119,7 +115,7 @@
             var firstPos = { x: event.clientX - marker.getBoundingClientRect().left, y: event.clientY - marker.getBoundingClientRect().top };
             marker.style.position = 'absolute';
             marker.style.zIndex = 1000;
-            // document.body.append(marker);
+
             moveAt(event.pageX, event.pageY);
             function moveAt(pageX, pageY) {
                 if (marker.getAttribute("id") == "marker_placed") {
@@ -139,10 +135,6 @@
                 var rect = { X: canvas.getBoundingClientRect().left, Y: canvas.getBoundingClientRect().top, W: canvas.width, H: canvas.height }
                 if ((e.clientX >= rect.X) & (e.clientX <= rect.X + rect.W) & (e.clientY >= rect.Y) & (e.clientY <= rect.Y + rect.H)) {
                     if (marker.getAttribute("id") == "marker_placed") {
-                        // marker.parentElement.style.left = parseInt(marker.parentElement.style.left) + parseInt(marker.style.left) + 'px';
-                        // marker.parentElement.style.top = parseInt(marker.parentElement.style.top) + parseInt(marker.style.top) + 'px';
-                        // marker.style.left = 0 + 'px';
-                        // marker.style.top = 0 + 'px';
                     }
                     else {
                         if (markerText == "") {
@@ -167,10 +159,10 @@
                             newDiv.style.position = "absolute";
                             newDiv.appendChild(marker);
                             document.body.appendChild(newDiv);
-                            var sp = document.createElement("span");
+                            const sp = document.createElement("span");
                             sp.setAttribute("class", "tooltip-text");
                             sp.setAttribute("position", "absolute");
-                            var text = document.createTextNode(markerText);
+                            const text = document.createTextNode(markerText);
                             sp.appendChild(text);
                             newDiv.appendChild(sp);
                             markerElement = [parseInt(marker.style.left) - canvas.offsetLeft, parseInt(marker.style.top) - canvas.offsetTop, markerText];

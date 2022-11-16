@@ -20,12 +20,35 @@
         .button_ {
             background-color: #5b9bd5;
         }
+
+        .tooltip {
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .tooltip-text {
+            display: none;
+            position: absolute;
+            max-width: 200px;
+            border: 1px solid #8eaac3;
+            padding: 5px;
+            font-size: 0.8em;
+            color: #000000;
+            background: #ffffff;
+            bottom: 110%;
+            word-break: keep-all;
+        }
+
+        .tooltip:hover .tooltip-text {
+            display: block;
+        }
     </style>
 </head>
 
 <body>
     <form onsubmit="return false;">
-        <input type="text" placeholder="Enter name for a new use case" size="30" id="textLoader" name="textLoader">
+        <input type="text" placeholder="Enter name for a new use case" size="30" id="textLoader" name="textLoader"
+            autocomplete="off">
     </form>
     <button class="button button_" id="imageButton">Upload image</button>
     <input type="file" id="imageLoader" name="imageLoader" style="display: none;" />
@@ -34,11 +57,19 @@
     <br />
     <canvas id="imageCanvas" style="border:1px solid #000000;"></canvas>
     <br />
-    <img src="./Star.png" style="z-index: 1000;" width="40" height="40" id="marker">
+    <form onsubmit="return false;">
+        <input type="text" placeholder="Enter description for this marker" size="30" id="markerTextLoader"
+            name="markerTextLoader" autocomplete="off">
+    </form>
+    <img src="./Star.png" onmousedown='markerBehavior(event, this);' ondragstart='return false;' style="z-index: 1000;"
+        width="40" height="40" id="marker">
 
     <script>
         var textInput = new String();
         var imgFile = new String();
+        var markerText = new String();
+        var markerInfo = new Array();
+        var markerElement = new Array();
         if (localStorage.infoArr_S) {
             var info = JSON.parse(localStorage.infoArr_S);
         }
@@ -71,24 +102,30 @@
                 return false;
             }
             else {
-                var _info = [textInput, imgFile];
+                var _info = [textInput, imgFile, markerInfo];
                 info.push(_info);
                 localStorage.infoArr_S = JSON.stringify(info);
                 location.href = './HoS.html';
             }
         }
 
-        marker.onmousedown = function (event) {
+        function markerBehavior(event, marker) {
             let shiftX = event.clientX - marker.getBoundingClientRect().left;
             let shiftY = event.clientY - marker.getBoundingClientRect().top;
             var firstPos = { x: event.clientX - marker.getBoundingClientRect().left, y: event.clientY - marker.getBoundingClientRect().top };
             marker.style.position = 'absolute';
             marker.style.zIndex = 1000;
-            document.body.append(marker);
+
             moveAt(event.pageX, event.pageY);
             function moveAt(pageX, pageY) {
-                marker.style.left = pageX - shiftX + 'px';
-                marker.style.top = pageY - shiftY + 'px';
+                if (marker.getAttribute("id") == "marker_placed") {
+                    marker.parentElement.style.left = pageX - shiftX + 'px';
+                    marker.parentElement.style.top = pageY - shiftY + 'px';
+                }
+                else {
+                    marker.style.left = pageX - shiftX + 'px';
+                    marker.style.top = pageY - shiftY + 'px';
+                }
             }
             function onMouseMove(event) {
                 moveAt(event.pageX, event.pageY);
@@ -97,21 +134,61 @@
             marker.onmouseup = function (e) {
                 var rect = { X: canvas.getBoundingClientRect().left, Y: canvas.getBoundingClientRect().top, W: canvas.width, H: canvas.height }
                 if ((e.clientX >= rect.X) & (e.clientX <= rect.X + rect.W) & (e.clientY >= rect.Y) & (e.clientY <= rect.Y + rect.H)) {
-                    console.log(true);
+                    if (marker.getAttribute("id") == "marker_placed") {
+                    }
+                    else {
+                        if (markerText == "") {
+                            marker.style.left = event.pageX - firstPos.x + 'px';
+                            marker.style.top = event.pageY - firstPos.y + 'px';
+                            console.log("Marker description is empty!");
+                        }
+                        else {
+                            const newImg = document.createElement("img");
+                            newImg.setAttribute("src", "./Star.png");
+                            newImg.setAttribute("style", "z-index: 1000;");
+                            newImg.setAttribute("width", "40");
+                            newImg.setAttribute("height", "40");
+                            newImg.setAttribute("id", "marker");
+                            newImg.setAttribute("onmousedown", "markerBehavior(event, this);");
+                            newImg.setAttribute("ondragstart", "return false;");
+                            document.body.appendChild(newImg)
+                            const newDiv = document.createElement("div");
+                            newDiv.setAttribute("class", "tooltip");
+                            newDiv.style.left = marker.style.left;
+                            newDiv.style.top = marker.style.top;
+                            newDiv.style.position = "absolute";
+                            newDiv.appendChild(marker);
+                            document.body.appendChild(newDiv);
+                            const sp = document.createElement("span");
+                            sp.setAttribute("class", "tooltip-text");
+                            sp.setAttribute("position", "absolute");
+                            const text = document.createTextNode(markerText);
+                            sp.appendChild(text);
+                            newDiv.appendChild(sp);
+                            markerElement = [parseInt(marker.style.left) - canvas.offsetLeft, parseInt(marker.style.top) - canvas.offsetTop, markerText];
+                            console.log(markerElement[0], markerElement[1]);
+                            markerInfo.push(markerElement);
+                            marker.style.left = 0 + 'px';
+                            marker.style.top = 0 + 'px';
+                            marker.setAttribute("id", "marker_placed");
+                        }
+                    }
                 }
                 else {
-                    marker.style.left = event.pageX - firstPos.x + 'px';
-                    marker.style.top = event.pageY - firstPos.y + 'px';
-                    console.log(false);
+                    if (marker.getAttribute("id") == "marker_placed") {
+                        marker.parentElement.style.left = event.pageX - firstPos.x + 'px';
+                        marker.parentElement.style.top = event.pageY - firstPos.y + 'px';
+                    }
+                    else {
+                        marker.style.left = event.pageX - firstPos.x + 'px';
+                        marker.style.top = event.pageY - firstPos.y + 'px';
+                    }
+
                 }
                 document.removeEventListener('mousemove', onMouseMove);
                 marker.onmouseup = null;
             };
-        };
-
-        marker.ondragstart = function () {
-            return false;
-        };
+        }
 
         var imageLoader = document.getElementById('imageLoader');
         imageLoader.addEventListener('change', handleImage, false);
@@ -124,6 +201,11 @@
 
         var textLoader = document.getElementById('textLoader');
         textLoader.addEventListener('change', handleText, false);
+
+        var markerTextLoader = document.getElementById('markerTextLoader');
+        markerTextLoader.addEventListener('change', function (e) {
+            markerText = document.getElementById('markerTextLoader').value;
+        }, false);
     </script>
 </body>
 

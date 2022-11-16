@@ -23,7 +23,6 @@
 
         .tooltip {
             display: inline-block;
-            color: deeppink;
             font-weight: bold;
         }
 
@@ -31,12 +30,11 @@
             display: none;
             position: absolute;
             max-width: 200px;
-            border: 1px solid;
-            border-radius: 5px;
+            border: 1px solid #8eaac3;
             padding: 5px;
             font-size: 0.8em;
-            color: white;
-            background: deeppink;
+            color: #000000;
+            background: #ffffff;
             bottom: 110%;
             word-break: keep-all;
         }
@@ -137,10 +135,10 @@
             newDiv.style.position = "absolute";
             newDiv.appendChild(newImg);
             document.body.appendChild(newDiv);
-            var sp = document.createElement("span");
+            const sp = document.createElement("span");
             sp.setAttribute("class", "tooltip-text");
             sp.setAttribute("position", "absolute");
-            var text = document.createTextNode(element[2]);
+            const text = document.createTextNode(element[2]);
             sp.appendChild(text);
             newDiv.appendChild(sp);
         });
