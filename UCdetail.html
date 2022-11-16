@@ -20,6 +20,30 @@
         .button_ {
             background-color: #5b9bd5;
         }
+
+        .tooltip {
+            display: inline-block;
+            color: deeppink;
+            font-weight: bold;
+        }
+
+        .tooltip-text {
+            display: none;
+            position: absolute;
+            max-width: 200px;
+            border: 1px solid;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 0.8em;
+            color: white;
+            background: deeppink;
+            bottom: 110%;
+            word-break: keep-all;
+        }
+
+        .tooltip:hover .tooltip-text {
+            display: block;
+        }
     </style>
 </head>
 
@@ -104,13 +128,21 @@
             newImg.setAttribute("width", "40");
             newImg.setAttribute("height", "40");
             newImg.setAttribute("id", "marker_placed");
-            var tempX = element[0];
-            var tempY = element[1];
-            newImg.style.left = tempX + canvas.offsetLeft + 'px';
-            newImg.style.top = tempY + canvas.offsetTop + 'px';
             newImg.style.position = 'absolute';
-            console.log(tempX, tempY);
             document.body.appendChild(newImg);
+            const newDiv = document.createElement("div");
+            newDiv.setAttribute("class", "tooltip");
+            newDiv.style.left = element[0] + canvas.offsetLeft + 'px';
+            newDiv.style.top = element[1] + canvas.offsetTop + 'px';
+            newDiv.style.position = "absolute";
+            newDiv.appendChild(newImg);
+            document.body.appendChild(newDiv);
+            var sp = document.createElement("span");
+            sp.setAttribute("class", "tooltip-text");
+            sp.setAttribute("position", "absolute");
+            var text = document.createTextNode(element[2]);
+            sp.appendChild(text);
+            newDiv.appendChild(sp);
         });
 
 

@@ -119,11 +119,17 @@
             var firstPos = { x: event.clientX - marker.getBoundingClientRect().left, y: event.clientY - marker.getBoundingClientRect().top };
             marker.style.position = 'absolute';
             marker.style.zIndex = 1000;
-            document.body.append(marker);
+            // document.body.append(marker);
             moveAt(event.pageX, event.pageY);
             function moveAt(pageX, pageY) {
-                marker.style.left = pageX - shiftX + 'px';
-                marker.style.top = pageY - shiftY + 'px';
+                if (marker.getAttribute("id") == "marker_placed") {
+                    marker.parentElement.style.left = pageX - shiftX + 'px';
+                    marker.parentElement.style.top = pageY - shiftY + 'px';
+                }
+                else {
+                    marker.style.left = pageX - shiftX + 'px';
+                    marker.style.top = pageY - shiftY + 'px';
+                }
             }
             function onMouseMove(event) {
                 moveAt(event.pageX, event.pageY);
@@ -133,6 +139,10 @@
                 var rect = { X: canvas.getBoundingClientRect().left, Y: canvas.getBoundingClientRect().top, W: canvas.width, H: canvas.height }
                 if ((e.clientX >= rect.X) & (e.clientX <= rect.X + rect.W) & (e.clientY >= rect.Y) & (e.clientY <= rect.Y + rect.H)) {
                     if (marker.getAttribute("id") == "marker_placed") {
+                        // marker.parentElement.style.left = parseInt(marker.parentElement.style.left) + parseInt(marker.style.left) + 'px';
+                        // marker.parentElement.style.top = parseInt(marker.parentElement.style.top) + parseInt(marker.style.top) + 'px';
+                        // marker.style.left = 0 + 'px';
+                        // marker.style.top = 0 + 'px';
                     }
                     else {
                         if (markerText == "") {
@@ -173,8 +183,15 @@
                     }
                 }
                 else {
-                    marker.style.left = event.pageX - firstPos.x + 'px';
-                    marker.style.top = event.pageY - firstPos.y + 'px';
+                    if (marker.getAttribute("id") == "marker_placed") {
+                        marker.parentElement.style.left = event.pageX - firstPos.x + 'px';
+                        marker.parentElement.style.top = event.pageY - firstPos.y + 'px';
+                    }
+                    else {
+                        marker.style.left = event.pageX - firstPos.x + 'px';
+                        marker.style.top = event.pageY - firstPos.y + 'px';
+                    }
+
                 }
                 document.removeEventListener('mousemove', onMouseMove);
                 marker.onmouseup = null;
